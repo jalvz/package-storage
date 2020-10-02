@@ -1,0 +1,15 @@
+format_version: 1.0.0
+name: apm-server
+title: Elastic APM
+description: Elastic APM
+version: 0.1.0
+categories: ["monitoring ??"]
+release: experimental # experimental / beta / ga
+type: solution  # integration / solution
+license: basic
+conditions:
+  kibana:
+    # or https://github.com/Masterminds/semver#caret-range-comparisons-major
+    version: ">=7.11.0"
+owner:
+  github: elastic/apm-server

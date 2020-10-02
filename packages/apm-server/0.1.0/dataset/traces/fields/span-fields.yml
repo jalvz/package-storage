@@ -1,0 +1,126 @@
+- key: apm-span
+  title: APM Span
+  description: Span-specific data for APM.
+  fields:
+    - name: view spans
+      format: url
+      label_template: "View Spans"
+
+    - name: child
+      type: group
+      dynamic: false
+      fields:
+        - name: id
+          type: keyword
+          description: >
+            The ID(s)s of the child event(s).
+
+    - name: span
+      type: group
+      dynamic: false
+      fields:
+
+        - name: id
+          type: keyword
+          description: >
+            The ID of the span stored as hex encoded string.
+
+        - name: name
+          type: keyword
+          count: 1
+          description: >
+            Generic designation of a span in the scope of a transaction.
+
+        - name: action
+          type: keyword
+          count: 1
+          description: >
+            The specific kind of event within the sub-type represented by the span (e.g. query, connect)
+
+        - name: start
+          type: group
+          fields:
+            - name: us
+              type: long
+              count: 1
+              description: >
+                Offset relative to the transaction's timestamp identifying the start of the span, in microseconds.
+
+        - name: duration
+          type: group
+          fields:
+
+            - name: us
+              type: long
+              count: 1
+              description: >
+                Duration of the span, in microseconds.
+
+        - name: sync
+          type: boolean
+          description: >
+            Indicates whether the span was executed synchronously or asynchronously.
+
+        - name: db
+          type: group
+          dynamic: false
+          fields:
+
+            - name: link
+              type: keyword
+              description: >
+                Database link.
+
+            - name: rows_affected
+              type: long
+              description: >
+                Number of rows affected by the database statement.
+
+        - name: destination
+          type: group
+          dynamic: false
+          fields:
+
+            - name: service
+              type: group
+              dynamic: false
+              description: Destination service context
+              fields:
+
+                - name: type
+                  type: keyword
+                  description: >
+                    Type of the destination service (e.g. 'db', 'elasticsearch'). Should typically be the same as span.type.
+
+                - name: name
+                  type: keyword
+                  description: >
+                    Identifier for the destination service (e.g. 'http://elastic.co', 'elasticsearch', 'rabbitmq')
+
+                - name: resource
+                  type: keyword
+                  description: >
+                    Identifier for the destination service resource being operated on (e.g. 'http://elastic.co:80', 'elasticsearch', 'rabbitmq/queue_name')
+
+        - name: message
+          type: group
+          dynamic: false
+          fields:
+
+            - name: queue
+              type: group
+              fields:
+
+                - name: name
+                  type: keyword
+                  description: >
+                    Name of the message queue or topic where the message is published or received.
+
+            - name: age
+              type: group
+              fields:
+
+              - name: ms
+                type: long
+                description: >
+                  Age of a message in milliseconds.
